@@ -1,40 +1,127 @@
+
 ---
 title: LingoUz
-emoji: 🌈
-colorFrom: pink
-colorTo: blue
+emoji: 🌐
+colorFrom: blue
+colorTo: purple
 sdk: gradio
 app_file: app.py
 pinned: false
 ---
 
-# 🌈 LingoUz — English → Uzbek Transformer
+# LingoUz — English-to-Uzbek Transformer
 
-A colorful web demo of a **character-level encoder–decoder Transformer** trained from scratch on 100 English–Uzbek word pairs. Based on the main architecture of *Attention Is All You Need* (Vaswani et al., 2017), with a smaller model (2 layers, 4 heads, `d_model=64`).
+A character-level neural word translation system built
+with PyTorch, inspired by the Transformer architecture
+introduced in "Attention Is All You Need" (2017).
 
-## Features
-- Real PyTorch Transformer inference (no hardcoded dictionary fallback)
-- Autoregressive greedy character decoding
-- Responsive Gradio interface
-- 100-word educational training dataset
+## Project Overview
 
-## Run locally
+LingoUz explores neural machine translation for Uzbek,
+a low-resource language in natural language processing.
+
+The model is trained from scratch without relying on
+pretrained language models or translation APIs.
+
+## Tech Stack
+
+- Python
+- PyTorch
+- Transformer Architecture
+- Natural Language Processing
+- Gradio
+
+## Model Architecture
+
+| Parameter | Value |
+|---|---|
+| Architecture | Encoder-Decoder Transformer |
+| Tokenization | Character-level |
+| Embedding dimension | 64 |
+| Attention heads | 4 |
+| Encoder layers | 2 |
+| Decoder layers | 2 |
+| Feed-forward dimension | 128 |
+| Dropout | 0.1 |
+| Decoding | Autoregressive greedy decoding |
+
+## Dataset
+
+The initial dataset contains 100 English-Uzbek word pairs.
+
+Dataset location:
+`data/english_uzbek_100.csv`
+
+This dataset is intended for educational experiments,
+not production-level machine translation.
+
+## Key Features
+
+- Custom encoder-decoder architecture
+- Sinusoidal positional encoding
+- Multi-head self-attention
+- Encoder-decoder cross-attention
+- Padding and causal attention masks
+- Autoregressive inference
+- Interactive Gradio interface
+
+## Installation
 
 ```bash
+git clone https://github.com/OrastaRakhmatullayeva/english-uzbek-transformer.git
+cd english-uzbek-transformer
 pip install -r requirements.txt
+```
+
+Place the trained model weights and matching vocabulary
+files inside the `checkpoints/` directory.
+
+Run the application:
+
+```bash
 python app.py
 ```
 
-Before running, put your **own trained** `english_uzbek_transformer_100.pth` and `vocabularies.json` in `checkpoints/`.
+## Project Structure
 
-## Model & limitations
+```text
+english-uzbek-transformer/
+├── checkpoints/
+├── data/
+├── model.py
+├── inference.py
+├── app.py
+├── requirements.txt
+└── README.md
+```
 
-The dataset has only 100 training pairs. Training-set accuracy reflects memorization, **not** generalization to unseen words or sentences. This is not a production translator. No external pretrained model is used.
+## Evaluation
 
-## Dataset and evaluation
+Quantitative evaluation results will be added after
+running reproducible evaluation experiments.
 
-`data/english_uzbek_100.csv` contains the 100 paired words. Add measured training word accuracy after running the evaluation cell. The model checkpoint must use the exact character vocabularies from training.
+## Limitations
+
+- Small training dataset
+- Word-level translation only
+- Limited generalization to unseen inputs
+- Greedy decoding
+- Not intended for production use
+
+## Future Improvements
+
+- Expand the parallel corpus
+- Support sentence-level translation
+- Add reproducible training and evaluation pipelines
+- Compare alternative model configurations
+- Develop a REST API
+- Optimize inference performance
 
 ## Reference
 
-Vaswani et al. (2017), [Attention Is All You Need](https://arxiv.org/abs/1706.03762).
+Vaswani et al. (2017).
+[Attention Is All You Need](https://arxiv.org/abs/1706.03762).
+
+## Author
+
+Orasta Rakhmatullayeva
