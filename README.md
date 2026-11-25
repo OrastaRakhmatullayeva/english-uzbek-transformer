@@ -1,35 +1,13 @@
 
----
-title: LingoUz
-emoji: 🌐
-colorFrom: blue
-colorTo: purple
-sdk: gradio
-app_file: app.py
-pinned: false
----
-
 # LingoUz — English-to-Uzbek Transformer
 
-A character-level neural word translation system built
-with PyTorch, inspired by the Transformer architecture
-introduced in "Attention Is All You Need" (2017).
-
-## Project Overview
-
-LingoUz explores neural machine translation for Uzbek,
-a low-resource language in natural language processing.
-
-The model is trained from scratch without relying on
-pretrained language models or translation APIs.
+A character-level English-to-Uzbek word translation
+model trained from scratch using PyTorch, inspired
+by the paper "Attention Is All You Need" (2017).
 
 ## Tech Stack
 
-- Python
-- PyTorch
-- Transformer Architecture
-- Natural Language Processing
-- Gradio
+Python · PyTorch · NLP · Transformers · Streamlit
 
 ## Model Architecture
 
@@ -37,33 +15,30 @@ pretrained language models or translation APIs.
 |---|---|
 | Architecture | Encoder-Decoder Transformer |
 | Tokenization | Character-level |
-| Embedding dimension | 64 |
-| Attention heads | 4 |
-| Encoder layers | 2 |
-| Decoder layers | 2 |
-| Feed-forward dimension | 128 |
+| Embedding Dimension | 64 |
+| Attention Heads | 4 |
+| Encoder Layers | 2 |
+| Decoder Layers | 2 |
+| Feed-Forward Dimension | 128 |
 | Dropout | 0.1 |
-| Decoding | Autoregressive greedy decoding |
 
 ## Dataset
 
-The initial dataset contains 100 English-Uzbek word pairs.
+The model was trained on 100 English-Uzbek word pairs
+without using pretrained models or translation APIs.
 
-Dataset location:
-`data/english_uzbek_100.csv`
+## Training Results
 
-This dataset is intended for educational experiments,
-not production-level machine translation.
+| Parameter | Value |
+|---|---|
+| Epochs | 200 |
+| Batch Size | 16 |
+| Learning Rate | 0.001 |
+| Optimizer | Adam |
+| Loss Function | Cross-Entropy |
+| Final Training Loss | 0.0520 |
 
-## Key Features
-
-- Custom encoder-decoder architecture
-- Sinusoidal positional encoding
-- Multi-head self-attention
-- Encoder-decoder cross-attention
-- Padding and causal attention masks
-- Autoregressive inference
-- Interactive Gradio interface
+![Training Loss](assets/training_loss.png)
 
 ## Installation
 
@@ -73,49 +48,29 @@ cd english-uzbek-transformer
 pip install -r requirements.txt
 ```
 
-Place the trained model weights and matching vocabulary
-files inside the `checkpoints/` directory.
-
-Run the application:
+## Run the Application
 
 ```bash
-python app.py
+streamlit run app.py
 ```
 
-## Project Structure
+## Train the Model
 
-```text
-english-uzbek-transformer/
-├── checkpoints/
-├── data/
-├── model.py
-├── inference.py
-├── app.py
-├── requirements.txt
-└── README.md
+```bash
+python train.py --epochs 200
 ```
 
 ## Evaluation
 
-Quantitative evaluation results will be added after
-running reproducible evaluation experiments.
+```bash
+python evaluate.py
+```
 
 ## Limitations
 
-- Small training dataset
-- Word-level translation only
-- Limited generalization to unseen inputs
-- Greedy decoding
-- Not intended for production use
-
-## Future Improvements
-
-- Expand the parallel corpus
-- Support sentence-level translation
-- Add reproducible training and evaluation pipelines
-- Compare alternative model configurations
-- Develop a REST API
-- Optimize inference performance
+This is an educational word-level translation model.
+Its small dataset limits generalization to unseen
+words and sentences.
 
 ## Reference
 
