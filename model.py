@@ -65,15 +65,61 @@ class TransformerNMT(nn.Module):
         self.encoder_layers = nn.ModuleList([EncoderLayer(d_model, num_heads, d_ff, dropout) for _ in range(num_layers)])
         self.decoder_layers = nn.ModuleList([DecoderLayer(d_model, num_heads, d_ff, dropout) for _ in range(num_layers)])
         self.output_layer = nn.Linear(d_model, tgt_vocab_size)
-    def forward(self, src, tgt):
+    def encode(self, src):
+        """Encode the source sequence."""
+
         src_padding_mask = src == 0
+
+        memory = self.pos_encoding(
+            self.src_embedding(src)
+        )
+
+        for layer in self.encoder_layers:
+            memory = layer(
+                memory,
+                src_padding_mask
+            )
+
+        return memory, src_padding_mask
+
+    def decode(self, tgt, memory, src_padding_mask):
+        """Decode the target sequence."""
+
         tgt_padding_mask = tgt == 0
         length = tgt.size(1)
-        tgt_mask = torch.triu(torch.ones(length, length, device=tgt.device, dtype=torch.bool), diagonal=1)
-        src = self.pos_encoding(self.src_embedding(src))
-        tgt = self.pos_encoding(self.tgt_embedding(tgt))
-        for layer in self.encoder_layers:
-            src = layer(src, src_padding_mask)
+
+        tgt_mask = torch.triu(
+            torch.ones(
+                length,
+                length,
+                device=tgt.device,
+                dtype=torch.bool
+            ),
+            diagonal=1
+        )
+
+        x = self.pos_encoding(
+            self.tgt_embedding(tgt)
+        )
+
         for layer in self.decoder_layers:
-            tgt = layer(tgt, src, tgt_mask, src_padding_mask, tgt_padding_mask)
-        return self.output_layer(tgt)
+            x = layer(
+                x,
+                memory,
+                tgt_mask,
+                src_padding_mask,
+                tgt_padding_mask
+            )
+
+        return self.output_layer(x)
+
+    def forward(self, src, tgt):
+        """Full encoder-decoder forward pass."""
+
+        memory, src_padding_mask = self.encode(src)
+
+        return self.decode(
+            tgt,
+            memory,
+            src_padding_mask
+        )
