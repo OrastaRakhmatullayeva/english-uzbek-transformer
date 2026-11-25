@@ -24,7 +24,7 @@ DEVICE = torch.device(
 ROOT = Path(__file__).resolve().parent
 DATA_PATH = ROOT / "data" / "english_uzbek_100.csv"
 
-OUTPUT_DIR = ROOT / "checkpoints" / "experiment_v1"
+OUTPUT_DIR = ROOT / "checkpoints"
 
 SPECIAL_TOKENS = [
     "<PAD>",
